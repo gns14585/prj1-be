@@ -13,7 +13,7 @@ public class BoardSerivce {
 
     private final BoardMapper mapper;
 
-    public void save(Board board) {
-        int insert = mapper.insert(board);
+    public boolean save(Board board) {
+        return  mapper.insert(board) == 1;
     }
 }

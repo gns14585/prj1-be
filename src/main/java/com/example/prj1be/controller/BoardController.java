@@ -3,6 +3,7 @@ package com.example.prj1be.controller;
 import com.example.prj1be.domain.Board;
 import com.example.prj1be.service.BoardSerivce;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,10 +14,13 @@ public class BoardController {
     private final BoardSerivce service;
 
     @PostMapping("add")
-    public void add(@RequestBody Board board) {
+    public ResponseEntity add(@RequestBody Board board) {
 
-        service.save(board);
+        if(service.save(board)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
-
 
 }
