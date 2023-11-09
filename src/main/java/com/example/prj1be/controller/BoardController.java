@@ -1,20 +1,21 @@
 package com.example.prj1be.controller;
 
+import com.example.prj1be.domain.Board;
+import com.example.prj1be.service.BoardSerivce;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
 public class BoardController {
 
-    @PostMapping("add")
-    public void add() {
-        System.out.println("BoardController.add");
+    private final BoardSerivce service;
 
+    @PostMapping("add")
+    public void add(@RequestBody Board board) {
+
+        service.save(board);
     }
 
 
