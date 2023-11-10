@@ -47,6 +47,11 @@ public class BoardController {
         }
     }
 
+    @PutMapping("edit")
+    public void edit(@RequestBody Board board) {
+        service.update(board);
+    }
+
 
 
 
