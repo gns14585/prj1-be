@@ -51,23 +51,4 @@ public class BoardSerivce {
         return mapper.update(board) == 1;
     }
 
-    public boolean nondate(Board board, Map<String, String> map) {
-        if (board == null) {
-            return false;
-        }
-        if (board.getContent() == null || board.getContent().isBlank()) {
-            map.put("message", "본문이 비어있습니다.");
-            return false;
-        }
-        if (board.getTitle() == null || board.getTitle().isBlank()) {
-            map.put("message", "제목이 비어있습니다.");
-            return false;
-        }
-        if (board.getWriter() == null || board.getWriter().isBlank()) {
-            map.put("message", "작성자가 비어있습니다.");
-            return false;
-        }
-
-        return true;
-    }
 }

@@ -23,7 +23,7 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
 
-        if(service.save(board)) {
+        if (service.save(board)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().build();
@@ -51,27 +51,15 @@ public class BoardController {
 
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Board board) {
-        Map<String, String> map = new HashMap<>();
-        if (!service.nondate(board, map)) {
-            return ResponseEntity.badRequest().body(map);
-        }
 
-        if(service.update(board)) {
-            return ResponseEntity.ok().build();
+        if (service.validate(board)) {
+            if (service.update(board)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
