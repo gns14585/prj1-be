@@ -67,7 +67,6 @@ public class BoardSerivce {
             map.put("message", "작성자가 비어있습니다.");
             return false;
         }
-
         return true;
     }
 }
