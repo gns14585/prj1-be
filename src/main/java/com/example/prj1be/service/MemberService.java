@@ -25,6 +25,10 @@ public class MemberService {
         return mapper.selectEmail(email);
     }
 
+    public String getNickName(String nickName) {
+        return mapper.selectNickName(nickName);
+    }
+
     public boolean validate(Member member) {
         if (member == null) {
             return false;
@@ -36,6 +40,9 @@ public class MemberService {
             return false;
         }
         if (member.getId().isBlank()) {
+            return false;
+        }
+        if (member.getNickName().isBlank()) {
             return false;
         }
         return true;
@@ -53,4 +60,16 @@ public class MemberService {
     public boolean deleteMember(String id) {
         return mapper.deleteById(id) == 1;
     }
+
+    public boolean update(Member member) {
+        // 방법 1
+//        Member oldMember = mapper.selectById(member.getId());
+//        if (member.getPassword().equals("")) {
+//            member.setPassword(oldMember.getPassword());
+//        }
+
+        return mapper.update(member) == 1;
+    }
+
+
 }
