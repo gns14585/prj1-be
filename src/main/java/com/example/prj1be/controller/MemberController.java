@@ -2,6 +2,7 @@ package com.example.prj1be.controller;
 
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -78,7 +79,7 @@ public class MemberController {
         // TODO : 로그인 했는지? -> 안했으면 401
         // TODO : 자기 정보인지? -> 아니면 403
 
-        if(service.deleteMember(id)) {
+        if (service.deleteMember(id)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.internalServerError().build();
@@ -106,6 +107,15 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("logout")
+    public void logout(HttpSession session) {
+        if (session != null) {
+            session.invalidate();
+        }
+    }
+
+
 
 
 
