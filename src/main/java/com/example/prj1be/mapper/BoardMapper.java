@@ -16,28 +16,28 @@ public interface BoardMapper {
     int insert(Board board);
 
     @Select("""
-            SELECT  b.id,
-                    b.title,
-                    b.writer,
-                    m.nickName,
-                    b.inserted
-            FROM board b JOIN member m
-            ON b.writer = m.id
-            ORDER BY b.id DESC
-            """)
+        SELECT b.id, 
+               b.title, 
+               b.writer,
+               m.nickName, 
+               b.inserted
+        FROM board b JOIN member m 
+        ON b.writer = m.id
+        ORDER BY b.id DESC
+        """)
     List<Board> selectAll();
 
     @Select("""
-            SELECT  b.id,
-                    b.title,
-                    b.content,
-                    b.writer,
-                    m.nickName,
-                    b.inserted
-            FROM board b JOIN member m
-            ON b.writer = m.id
-            WHERE b.id = #{id}
-            """)
+        SELECT b.id,
+               b.title, 
+               b.content, 
+               b.writer, 
+               m.nickName,
+               b.inserted
+        FROM board b JOIN member m 
+        ON b.writer = m.id
+        WHERE b.id = #{id}
+        """)
     Board selectById(Integer id);
 
     @Delete("""
