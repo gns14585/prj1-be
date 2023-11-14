@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
@@ -96,9 +97,10 @@ public class MemberController {
     }
 
     @PostMapping("login")
-    public ResponseEntity login(@RequestBody Member member) {
+    // WebRequest : session에 어트리뷰트를 추가할 수 있는 메소드가 있음
+    public ResponseEntity login(@RequestBody Member member, WebRequest request) {
 
-        if (service.login(member)) {
+        if (service.login(member, request)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
