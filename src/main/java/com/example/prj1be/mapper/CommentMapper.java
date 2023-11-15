@@ -1,10 +1,8 @@
 package com.example.prj1be.mapper;
 
+import com.example.prj1be.domain.Member;
 import com.example.prj1be.domin.Comment;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -35,4 +33,5 @@ public interface CommentMapper {
             WHERE id = #{id}
             """)
     Comment selectById(Integer id);
+
 }

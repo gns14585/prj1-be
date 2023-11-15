@@ -49,4 +49,5 @@ public class CommentService {
         // 댓글을 작성한 사용자와, 로그인한 사용자가 같은지 비교
         return comment.getMemberId().equals(login.getId());
     }
+
 }
