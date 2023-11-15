@@ -41,9 +41,22 @@ public class CommentController {
     }
 
     @DeleteMapping("{id}")
-    public void remove(@PathVariable Integer id) {
-        // TODO : 권한 검증 코드...
-        service.remove(id);
+    public ResponseEntity remove(@PathVariable Integer id,
+                                         @SessionAttribute(value = "login", required = false) Member login) {
+        if (login == null) { // 로그인을 안했을때
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        if (service.hasAccess(id, login)) {
+            if (service.remove(id)) {
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.internalServerError().build();
+            }
+        } else { // 로그인은 했지만 해당 아이디랑 관련된 것들이 아닐때
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
     }
 
 }
