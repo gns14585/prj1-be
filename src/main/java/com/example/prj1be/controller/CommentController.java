@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/comment")
@@ -17,7 +19,7 @@ public class CommentController {
 
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Comment comment,
-                                      @SessionAttribute(value = "login", required = false) Member login) {
+                              @SessionAttribute(value = "login", required = false) Member login) {
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -31,7 +33,10 @@ public class CommentController {
         } else {
             return ResponseEntity.badRequest().build();
         }
+    }
 
-
+    @GetMapping("list")
+    public List<Comment> list(@RequestParam("id") Integer boardId) {
+        return service.list(boardId);
     }
 }
