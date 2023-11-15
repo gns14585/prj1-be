@@ -40,21 +40,11 @@ public class CommentController {
         return service.list(boardId);
     }
 
-    @DeleteMapping
-    public ResponseEntity delete(String id,
-                                 @SessionAttribute(value = "login", required = false) Member login) {
-        if (login == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    @DeleteMapping("remove")
+    public Integer remove(@PathVariable Integer id) {
 
-        if (!service.hasAccess(id, login)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+        return service.remove(id);
 
-        if (service.deleteMember(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.internalServerError().build();
-        }
     }
+
 }

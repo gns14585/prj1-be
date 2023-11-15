@@ -4,6 +4,7 @@ import com.example.prj1be.domain.Member;
 import com.example.prj1be.domin.Comment;
 import com.example.prj1be.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +38,9 @@ public class CommentService {
 
     public List<Comment> list(Integer boardId) {
         return mapper.selectByBoardId(boardId);
+    }
+
+    public Integer remove(Integer id) {
+        return mapper.deleteById(id);
     }
 }
