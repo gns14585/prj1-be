@@ -1,6 +1,5 @@
 package com.example.prj1be.service;
 
-import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.domin.Comment;
 import com.example.prj1be.mapper.CommentMapper;
@@ -37,5 +36,6 @@ public class CommentService {
 
 
     public List<Comment> list(Integer boardId) {
+        return mapper.selectByBoardId(boardId);
     }
 }
