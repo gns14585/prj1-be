@@ -16,10 +16,5 @@ public interface CommentMapper {
             """)
     int insert(Comment comment);
 
-    @Select("""
-            SELECT *
-            FROM comment
-            WHERE boardId = #{boardId}
-            """)
-    List<Comment> selectByBoardId(Integer boardId);
+
 }
