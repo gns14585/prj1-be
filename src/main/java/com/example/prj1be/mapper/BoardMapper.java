@@ -63,4 +63,6 @@ public interface BoardMapper {
             WHERE writer = #{writer}
             """)
     int deleteByWriter(String writer);
+
+
 }

@@ -14,6 +14,7 @@ public class BoardSerivce {
 
     private final MemberService memberService;
     private final BoardMapper mapper;
+    private final CommentService commentService;
 
     public boolean save(Board board, Member login) {
         board.setWriter(login.getId());
@@ -43,6 +44,7 @@ public class BoardSerivce {
     }
 
     public boolean remove(Integer id) {
+        commentService.removeByBoardId(id);
         return mapper.deleteById(id) == 1;
     }
 
