@@ -13,7 +13,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardSerivce {
 
-    private final MemberService memberService;
     private final BoardMapper mapper;
     private final CommentMapper commentMapper;
 
@@ -48,6 +47,7 @@ public class BoardSerivce {
         // 1. 게시물에 달린 댓글들 지우기
         commentMapper.deleteByBoardId(id);
 
+        // 2. 게시물 삭제
         return mapper.deleteById(id) == 1;
     }
 
@@ -56,7 +56,11 @@ public class BoardSerivce {
     }
 
     public boolean hasAccess(Integer id, Member login) {
-        if (memberService.isAdmin(login)) {
+        if (login == null) {
+            return false;
+        }
+
+        if (login.isAdmin()) {
             return true;
         }
 
