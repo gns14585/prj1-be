@@ -25,8 +25,6 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        System.out.println("login = " + login);
-
         if (!service.validate(board)) {
             return ResponseEntity.badRequest().build();
         }
@@ -34,7 +32,7 @@ public class BoardController {
         if (service.save(board, login)) {
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.internalServerError().build();
         }
     }
 
@@ -69,13 +67,12 @@ public class BoardController {
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Board board,
                                @SessionAttribute(value = "login", required = false) Member login) {
-
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
 
         if (!service.hasAccess(board.getId(), login)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
         if (service.validate(board)) {
@@ -89,3 +86,10 @@ public class BoardController {
         }
     }
 }
+
+
+
+
+
+
+

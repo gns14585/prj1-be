@@ -7,17 +7,16 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface LikeMapper {
-
     @Delete("""
-            DELETE FROM boardLike
-            WHERE boardId = #{boardId}
-            AND memberId = #{memberId}
-            """)
+        DELETE FROM boardLike
+        WHERE boardId = #{boardId}
+          AND memberId = #{memberId}
+        """)
     int delete(Like like);
 
     @Insert("""
-            INSERT INTO boardlike (memberId, boardId) 
-            VALUES (#{memberId}, #{boardId})
-            """)
+        INSERT INTO boardLike (boardId, memberId)
+        VALUES (#{boardId}, #{memberId})
+        """)
     int insert(Like like);
 }

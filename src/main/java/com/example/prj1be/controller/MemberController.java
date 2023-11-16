@@ -5,15 +5,14 @@ import com.example.prj1be.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.List;
 
-@RestController
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/api/member")
 public class MemberController {
     private final MemberService service;
@@ -29,7 +28,6 @@ public class MemberController {
         } else {
             return ResponseEntity.badRequest().build();
         }
-
     }
 
     @GetMapping(value = "check", params = "id")
@@ -63,7 +61,7 @@ public class MemberController {
     public List<Member> list() {
         return service.list();
     }
-
+    
     @GetMapping
     public ResponseEntity<Member> view(String id,
                                        @SessionAttribute(value = "login", required = false) Member login) {
@@ -81,33 +79,36 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity delete(String id, HttpSession session,
+    public ResponseEntity delete(String id,
+                                 HttpSession session,
                                  @SessionAttribute(value = "login", required = false) Member login) {
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
 
         if (!service.hasAccess(id, login)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
         if (service.deleteMember(id)) {
             session.invalidate();
+
             return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.internalServerError().build();
         }
+
+        return ResponseEntity.internalServerError().build();
+
     }
 
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Member member,
                                @SessionAttribute(value = "login", required = false) Member login) {
         if (login == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); //401
         }
 
         if (!service.hasAccess(member.getId(), login)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // 403
         }
 
         if (service.update(member)) {
@@ -118,7 +119,6 @@ public class MemberController {
     }
 
     @PostMapping("login")
-    // WebRequest : session에 어트리뷰트를 추가할 수 있는 메소드가 있음
     public ResponseEntity login(@RequestBody Member member, WebRequest request) {
 
         if (service.login(member, request)) {
@@ -140,20 +140,12 @@ public class MemberController {
         return login;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+

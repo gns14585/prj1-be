@@ -1,7 +1,7 @@
 package com.example.prj1be.service;
 
-import com.example.prj1be.domain.Member;
 import com.example.prj1be.domain.Comment;
+import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
 
     private final CommentMapper mapper;
 
@@ -23,30 +24,30 @@ public class CommentService {
         if (comment == null) {
             return false;
         }
+
         if (comment.getBoardId() == null || comment.getBoardId() < 1) {
             return false;
         }
+
         if (comment.getComment() == null || comment.getComment().isBlank()) {
             return false;
         }
 
         return true;
-
     }
-
 
     public List<Comment> list(Integer boardId) {
         return mapper.selectByBoardId(boardId);
     }
 
     public boolean remove(Integer id) {
+
         return mapper.deleteById(id) == 1;
     }
 
     public boolean hasAccess(Integer id, Member login) {
         Comment comment = mapper.selectById(id);
 
-        // 댓글을 작성한 사용자와, 로그인한 사용자가 같은지 비교
         return comment.getMemberId().equals(login.getId());
     }
 
@@ -68,19 +69,6 @@ public class CommentService {
         }
 
         return true;
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

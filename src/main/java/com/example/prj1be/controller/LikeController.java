@@ -2,7 +2,6 @@ package com.example.prj1be.controller;
 
 import com.example.prj1be.domain.Like;
 import com.example.prj1be.domain.Member;
-import com.example.prj1be.mapper.CommentMapper;
 import com.example.prj1be.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,5 +25,4 @@ public class LikeController {
         service.update(like, login);
         return null;
     }
-
 }

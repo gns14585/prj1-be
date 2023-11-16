@@ -1,7 +1,7 @@
 package com.example.prj1be.controller;
 
-import com.example.prj1be.domain.Member;
 import com.example.prj1be.domain.Comment;
+import com.example.prj1be.domain.Member;
 import com.example.prj1be.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,8 @@ public class CommentController {
 
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Comment comment,
-                              @SessionAttribute(value = "login", required = false) Member login) {
+                                      @SessionAttribute(value = "login", required = false) Member login) {
+
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -30,9 +31,11 @@ public class CommentController {
             } else {
                 return ResponseEntity.internalServerError().build();
             }
+
         } else {
             return ResponseEntity.badRequest().build();
         }
+
     }
 
     @GetMapping("list")
@@ -42,8 +45,8 @@ public class CommentController {
 
     @DeleteMapping("{id}")
     public ResponseEntity remove(@PathVariable Integer id,
-                                 @SessionAttribute(value = "login", required = false) Member login) {
-        if (login == null) { // 로그인을 안했을때
+                             @SessionAttribute(value = "login", required = false) Member login) {
+        if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
@@ -53,15 +56,15 @@ public class CommentController {
             } else {
                 return ResponseEntity.internalServerError().build();
             }
-        } else { // 로그인은 했지만 해당 아이디랑 관련된 것들이 아닐때
+        } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-    }
 
+    }
 
     @PutMapping("edit")
     public ResponseEntity update(@RequestBody Comment comment,
-                                 @SessionAttribute(value = "login", required = false) Member login) {
+                       @SessionAttribute(value = "login", required = false) Member login) {
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
@@ -77,11 +80,10 @@ public class CommentController {
                 return ResponseEntity.internalServerError().build();
             }
         } else {
+
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
 
     }
-
-
 }
