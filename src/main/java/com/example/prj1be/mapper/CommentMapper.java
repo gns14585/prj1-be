@@ -34,4 +34,10 @@ public interface CommentMapper {
             """)
     Comment selectById(Integer id);
 
+    @Update("""
+            UPDATE comment
+            SET comment = #{comment}
+            WHERE id = #{id}
+            """)
+    int update(Comment comment);
 }
