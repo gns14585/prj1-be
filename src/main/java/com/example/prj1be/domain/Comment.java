@@ -1,4 +1,4 @@
-package com.example.prj1be.domin;
+package com.example.prj1be.domain;
 
 import lombok.Data;
 
