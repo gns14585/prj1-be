@@ -3,6 +3,7 @@ package com.example.prj1be.service;
 import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.BoardMapper;
+import com.example.prj1be.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class BoardSerivce {
     }
 
     public boolean remove(Integer id) {
+
         return mapper.deleteById(id) == 1;
     }
 

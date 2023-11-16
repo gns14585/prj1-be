@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
+
     @Insert("""
             INSERT INTO board (title, content, writer)
             VALUES (#{title}, #{content}, #{writer})
@@ -63,4 +64,11 @@ public interface BoardMapper {
             WHERE writer = #{writer}
             """)
     int deleteByWriter(String writer);
+
+
+    @Delete("""
+            DELETE FROM board
+            WHERE id = #{id}
+            """)
+    int deleteBy(Integer id);
 }

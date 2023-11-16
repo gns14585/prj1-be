@@ -74,4 +74,10 @@ public interface MemberMapper {
             WHERE memberId = #{id}
             """)
     List<Auth> selectAuthById(String id);
+
+    @Delete("""
+            DELETE FROM member
+            WHERE id = #{id}
+            """)
+    int deleteByView(Integer id);
 }
