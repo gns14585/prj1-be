@@ -2,23 +2,20 @@ package com.example.prj1be.controller;
 
 import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Member;
-import com.example.prj1be.service.BoardSerivce;
-import jakarta.servlet.http.HttpSession;
+import com.example.prj1be.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
 public class BoardController {
 
-    private final BoardSerivce service;
+    private final BoardService service;
 
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Board board,
