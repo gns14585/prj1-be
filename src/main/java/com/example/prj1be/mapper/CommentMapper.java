@@ -47,4 +47,11 @@ public interface CommentMapper {
             WHERE id = #{id}
             """)
     int update(Comment comment);
+
+    // 1. 게시물에 달린 댓글들 지우기
+    @Delete("""
+            DELETE FROM comment
+            WHERE boardId = #{boardId}
+            """)
+    int deleteByBoardId(Integer boardId);
 }
