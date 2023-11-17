@@ -7,7 +7,6 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-
     @Insert("""
         INSERT INTO board (title, content, writer)
         VALUES (#{title}, #{content}, #{writer})
@@ -15,19 +14,18 @@ public interface BoardMapper {
     int insert(Board board);
 
     @Select("""
-            SELECT
-            b.id,
-            b.title,
-            b.writer,
-            m.nickName,
-            b.inserted,
-            COUNT(DISTINCT c.id) AS countComment,
-            COUNT(DISTINCT b2.memberId) AS countLike
-        FROM board b JOIN member m ON b.writer = m.id 
-            LEFT JOIN comment c ON b.id = c.boardId 
-            LEFT JOIN boardlike b2 ON b.id = b2.boardId
+        SELECT b.id,
+               b.title,
+               b.writer,
+               m.nickName,
+               b.inserted,
+               COUNT(DISTINCT c.id) countComment,
+               COUNT(DISTINCT l.id) countLike
+        FROM board b JOIN member m ON b.writer = m.id
+                     LEFT JOIN comment c ON b.id = c.boardId
+                     LEFT JOIN boardLike l ON b.id = l.boardId
         GROUP BY b.id
-        ORDER BY b.id DESC;
+        ORDER BY b.id DESC
         """)
     List<Board> selectAll();
 
@@ -58,7 +56,7 @@ public interface BoardMapper {
         """)
     int update(Board board);
 
-    
+
     @Delete("""
         DELETE FROM board
         WHERE writer = #{writer}

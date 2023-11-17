@@ -22,16 +22,31 @@ public interface LikeMapper {
     int insert(Like like);
 
     @Select("""
-            SELECT COUNT(id) FROM boardLike
-            WHERE boardId = #{boardId}
-            """)
+        SELECT COUNT(id) FROM boardLike
+        WHERE boardId = #{boardId}
+        """)
     int countByBoardId(Integer boardId);
 
     @Select("""
-            SELECT * FROM boardlike
-            WHERE 
-                    boardId = #{boardId}
-                AND memberId = #{memberId}
-            """)
+        SELECT * 
+        FROM boardLike
+        WHERE 
+                boardId = #{boardId}
+            AND memberId = #{memberId}   
+        """)
     Like selectByBoardIdAndMemberId(Integer boardId, String memberId);
+
+    // 좋아요 레코드 지우기
+    @Delete("""
+            DELETE FROM boardlike
+            WHERE boardId = #{boardId}
+            """)
+    int deleteByBoardId(Integer boardId);
+
+    // 좋아요 한 멤버 삭제
+    @Delete("""
+            DELETE FROM boardlike
+            WHERE memberId = #{memberId}
+            """)
+    int deleteByMemberId(String memberId);
 }
