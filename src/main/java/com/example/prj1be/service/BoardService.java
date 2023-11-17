@@ -66,7 +66,7 @@ public class BoardService {
         // 오른쪽으로 10페이지 넘어가게
         int nextPageNumber = endPageNumber + 1;
 
-
+        pageInfo.put("currentPageNumber", page); // 현재 페이지
         pageInfo.put("startPageNumber", startPageNumber);
         pageInfo.put("endPageNumber", endPageNumber);
         if (prevPageNumber > 0) {
