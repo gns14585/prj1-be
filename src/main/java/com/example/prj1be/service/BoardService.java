@@ -61,8 +61,20 @@ public class BoardService {
         // 오른쪽 끝으로 넘어가는 페이지 번호
         endPageNumber = Math.min(endPageNumber, lastPageNumber);
 
+        // 왼쪽으로 10페이지 넘어가게
+        int prevPageNumber = startPageNumber - 10;
+        // 오른쪽으로 10페이지 넘어가게
+        int nextPageNumber = endPageNumber + 1;
+
+
         pageInfo.put("startPageNumber", startPageNumber);
         pageInfo.put("endPageNumber", endPageNumber);
+        if (prevPageNumber > 0) {
+            pageInfo.put("prevPageNumber", prevPageNumber);
+        }
+        if (nextPageNumber <= lastPageNumber) {
+            pageInfo.put("nextPageNumber", nextPageNumber);
+        }
 
         // 10페이지씩 보이게
         int from = (page - 1) * 10;
