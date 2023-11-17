@@ -15,16 +15,19 @@ public interface BoardMapper {
     int insert(Board board);
 
     @Select("""
-        SELECT b.id,
-               b.title,
-               b.writer,
-               m.nickName,
-               b.inserted,
-               COUNT(c.id) countComment
-        FROM board b JOIN member m ON b.writer = m.id
-                     LEFT JOIN comment c on b.id = c.boardId
+            SELECT
+            b.id,
+            b.title,
+            b.writer,
+            m.nickName,
+            b.inserted,
+            COUNT(DISTINCT c.id) AS countComment,
+            COUNT(DISTINCT b2.memberId) AS countLike
+        FROM board b JOIN member m ON b.writer = m.id 
+            LEFT JOIN comment c ON b.id = c.boardId 
+            LEFT JOIN boardlike b2 ON b.id = b2.boardId
         GROUP BY b.id
-        ORDER BY b.id DESC
+        ORDER BY b.id DESC;
         """)
     List<Board> selectAll();
 
