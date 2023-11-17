@@ -71,4 +71,10 @@ public interface BoardMapper {
         WHERE writer = #{id}
         """)
     List<Integer> selectIdListByMemberId(String writer);
+
+    // 총 게시물 숫자 파악
+    @Select("""
+            SELECT COUNT(*) FROM board;
+            """)
+    int countAll();
 }

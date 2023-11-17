@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,7 +40,9 @@ public class BoardController {
     // 페이징처리
     // /api/board/list?p=(페이지번호)
     @GetMapping("list")
-    public List<Board> list(@RequestParam(value = "p",defaultValue = "1") Integer page) {
+    public Map<String,Object> list(@RequestParam(value = "p",defaultValue = "1") Integer page) {
+
+
         return service.list(page);
     }
 
