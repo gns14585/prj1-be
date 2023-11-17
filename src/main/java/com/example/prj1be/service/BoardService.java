@@ -57,11 +57,12 @@ public class BoardService {
 
         // 마지막번호 (오른쪽으로 넘어가는)
         int endPageNumber = startPageNumber + 9;
+
         // 오른쪽 끝으로 넘어가는 페이지 번호
         endPageNumber = Math.min(endPageNumber, lastPageNumber);
 
         pageInfo.put("startPageNumber", startPageNumber);
-        pageInfo.put("lastPageNumber", lastPageNumber);
+        pageInfo.put("endPageNumber", endPageNumber);
 
         // 10페이지씩 보이게
         int from = (page - 1) * 10;
