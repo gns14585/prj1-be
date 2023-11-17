@@ -68,7 +68,7 @@ public class MemberService {
         // 이 멤버가 작성한 댓글 삭제
         commentMapper.deleteByMemberId(id);
         
-        // 좋아요 삭제
+        // 좋아요 한 멤버 삭제
         likeMapper.deleteByMemberId(id);
 
         // 이 멤버가 작성한 게시물 삭제
