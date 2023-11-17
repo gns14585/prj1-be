@@ -26,8 +26,9 @@ public interface BoardMapper {
                      LEFT JOIN boardLike l ON b.id = l.boardId
         GROUP BY b.id
         ORDER BY b.id DESC
-        """)
-    List<Board> selectAll();
+        LIMIT #{from}, 10
+        """) // 페이징 10페이지씩 보이게 LIMIT 사용
+    List<Board> selectAll(Integer from);
 
     @Select("""
         SELECT b.id,

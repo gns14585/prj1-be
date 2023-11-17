@@ -40,8 +40,11 @@ public class BoardService {
         return true;
     }
 
-    public List<Board> list() {
-        return mapper.selectAll();
+    public List<Board> list(Integer page) {
+        // 10페이지씩 보이게
+        int from = (page - 1) * 10;
+
+        return mapper.selectAll(from);
     }
 
     public Board get(Integer id) {
