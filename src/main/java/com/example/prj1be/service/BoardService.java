@@ -4,10 +4,13 @@ import com.example.prj1be.domain.Board;
 import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.BoardMapper;
 import com.example.prj1be.mapper.CommentMapper;
+import com.example.prj1be.mapper.FileMapper;
 import com.example.prj1be.mapper.LikeMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,11 +21,48 @@ public class BoardService {
     private final BoardMapper mapper;
     private final CommentMapper commentMapper;
     private final LikeMapper likeMapper;
+    private final FileMapper fileMapper;
 
-    public boolean save(Board board, Member login) {
+    public boolean save(Board board, MultipartFile[] files, Member login) {
+        //
         board.setWriter(login.getId());
 
-        return mapper.insert(board) == 1;
+        int cnt = mapper.insert(board);
+
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                // boardId, name
+                fileMapper.insert(board.getId(), files[i].getOriginalFilename());
+
+                // 실제 파일을 S3 bucket(aws)에 upload
+                // 일단 local에 저장
+                upload(board.getId(), files[i]);
+            }
+        }
+
+
+        return cnt == 1;
+    }
+
+    private void upload(Integer boardId, MultipartFile file) {
+        // 파일 저장 경로
+        // C:\Temp\prj1\게시물번호\파일명
+        try {
+            File folder = new File("C:\\Temp\\prj1\\" + boardId);
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            String path = folder.getAbsolutePath() + "\\" + file.getOriginalFilename();
+            File des = new File(path);
+            // input, output strema 을 자동으로 처리해주는 메소드(file.transferTo(new File(path));
+            file.transferTo(new File(path));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public boolean validate(Board board) {

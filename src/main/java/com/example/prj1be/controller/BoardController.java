@@ -24,12 +24,13 @@ public class BoardController {
                               // 파일을 안보낼 수 있으니 file 명이 동일해도 required값을 false로
                               @RequestParam(value = "files[]", required = false) MultipartFile[] files,
                               @SessionAttribute(value = "login", required = false) Member login) {
-        if (files != null) {
-            for (int i = 0; i < files.length; i++) {
-                System.out.println("file = " + files[i].getOriginalFilename());
-                System.out.println("file.getSize() = " + files[i].getSize());
-            }
-        }
+        // 파일이 잘 넘어오는지 확인용 코드
+//        if (files != null) {
+//            for (int i = 0; i < files.length; i++) {
+//                System.out.println("file = " + files[i].getOriginalFilename());
+//                System.out.println("file.getSize() = " + files[i].getSize());
+//            }
+//        }
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -39,7 +40,7 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
 
-        if (service.save(board, login)) {
+        if (service.save(board, files, login)) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.internalServerError().build();
