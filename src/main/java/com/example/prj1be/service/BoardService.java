@@ -41,11 +41,13 @@ public class BoardService {
         return true;
     }
 
+    // 마찬가지로 매개변수에 String keyword 추가
     public Map<String, Object> list(Integer page, String keyword) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> pageInfo = new HashMap<>();
 
-        int countAll = mapper.countAll();
+//        int countAll = mapper.countAll();
+        int countAll = mapper.countAll("%" + keyword + "%");
         int lastPageNumber = (countAll - 1) / 10 + 1;
         int startPageNumber = (page - 1) / 10 * 10 + 1;
         int endPageNumber = startPageNumber + 9;
@@ -64,6 +66,7 @@ public class BoardService {
         }
 
         int from = (page - 1) * 10;
+        // "%"+keyword+"%" 를 추가하게 해주면 mapper에서 <script> 사용할 필요없음.
         map.put("boardList", mapper.selectAll(from, "%" + keyword + "%"));
         map.put("pageInfo", pageInfo);
         return map;

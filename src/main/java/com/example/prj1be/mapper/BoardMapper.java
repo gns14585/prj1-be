@@ -24,6 +24,7 @@ public interface BoardMapper {
         FROM board b JOIN member m ON b.writer = m.id
                      LEFT JOIN comment c ON b.id = c.boardId
                      LEFT JOIN boardLike l ON b.id = l.boardId
+        # keyword를 추가해서 검색했을때 해당 내용이 나오도록
         WHERE b.content LIKE #{keyword}
             OR b.title LIKE #{keyword}
         GROUP BY b.id
@@ -76,7 +77,9 @@ public interface BoardMapper {
 
     // 총 게시물 숫자 파악
     @Select("""
-            SELECT COUNT(*) FROM board;
+            SELECT COUNT(*) FROM board
+            WHERE title LIKE #{keyword}
+                OR content LIKE #{keyword}
             """)
-    int countAll();
+    int countAll(String s);
 }
