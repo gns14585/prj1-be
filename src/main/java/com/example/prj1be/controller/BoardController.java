@@ -38,12 +38,13 @@ public class BoardController {
     }
 
     // 페이징처리
-    // /api/board/list?p=(페이지번호)
+    // /api/board/list?p=6(페이지번호)
+    // /api/board/list?k=java(keyword)
     @GetMapping("list")
-    public Map<String,Object> list(@RequestParam(value = "p",defaultValue = "1") Integer page) {
-
-
-        return service.list(page);
+    public Map<String,Object> list(
+            @RequestParam(value = "p",defaultValue = "1") Integer page,
+            @RequestParam(value = "k", defaultValue = "") String keyword) {
+        return service.list(page, keyword);
     }
 
     @GetMapping("id/{id}")
