@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class BoardController {
     public ResponseEntity add(Board board,
                               // 파일을 안보낼 수 있으니 file 명이 동일해도 required값을 false로
                               @RequestParam(value = "files[]", required = false) MultipartFile[] files,
-                              @SessionAttribute(value = "login", required = false) Member login) {
+                              @SessionAttribute(value = "login", required = false) Member login) throws IOException {
         // 파일이 잘 넘어오는지 확인용 코드
 //        if (files != null) {
 //            for (int i = 0; i < files.length; i++) {

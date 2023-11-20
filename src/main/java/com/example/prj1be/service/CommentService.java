@@ -5,11 +5,13 @@ import com.example.prj1be.domain.Member;
 import com.example.prj1be.mapper.CommentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class) // 두개를 같이 실행시킬떄 하나만 성공할경우 성공한것을 롤백시킴
 public class CommentService {
 
 
