@@ -20,7 +20,7 @@ public class Board {
     private Integer countComment;
     private Integer countLike;
 
-    private List<String> fileName;
+    private List<BoardFile> files;
 
 
     public String getAgo() { // AppUtll 클래스에 공통 날짜함수를 빼놓을걸 연결시켜줘야함
