@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Data
 public class Board {
@@ -18,6 +19,8 @@ public class Board {
     private LocalDateTime inserted;
     private Integer countComment;
     private Integer countLike;
+
+    private List<String> fileName;
 
 
     public String getAgo() { // AppUtll 클래스에 공통 날짜함수를 빼놓을걸 연결시켜줘야함
