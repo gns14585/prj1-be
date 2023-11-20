@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,16 @@ public class BoardController {
     private final BoardService service;
 
     @PostMapping("add")
-    public ResponseEntity add(@RequestBody Board board,
+    public ResponseEntity add(Board board,
+                              // 파일을 안보낼 수 있으니 file 명이 동일해도 required값을 false로
+                              @RequestParam(value = "files[]", required = false) MultipartFile[] files,
                               @SessionAttribute(value = "login", required = false) Member login) {
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                System.out.println("file = " + files[i].getOriginalFilename());
+                System.out.println("file.getSize() = " + files[i].getSize());
+            }
+        }
 
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -41,8 +50,8 @@ public class BoardController {
     // /api/board/list?p=6(페이지번호)
     // /api/board/list?k=java(keyword)
     @GetMapping("list")
-    public Map<String,Object> list(
-            @RequestParam(value = "p",defaultValue = "1") Integer page,
+    public Map<String, Object> list(
+            @RequestParam(value = "p", defaultValue = "1") Integer page,
             // 검색에 필요한 keyword 추가
             @RequestParam(value = "k", defaultValue = "") String keyword) {
         // keyword 도 매개변수 추가해주기
