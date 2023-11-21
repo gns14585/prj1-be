@@ -15,6 +15,7 @@ public interface BoardMapper {
     int insert(Board board);
 
     @Select("""
+        <script>
         SELECT b.id,
                b.title,
                b.writer,
@@ -29,19 +30,20 @@ public interface BoardMapper {
                      LEFT JOIN boardfile f ON b.id = f.boardId
         # keyword를 추가해서 검색했을때 해당 내용이 나오도록
         WHERE 
-                <script>
+                
                     <trim prefixOverrides="OR">
-                        <if text="category == 'all' or category == 'title'">
+                        <if test="category == 'all' or category == 'title'">
                             OR title LIKE #{keyword}
                         </if>
-                        <if text="category == 'all' or category == 'content'">
+                        <if test="category == 'all' or category == 'content'">
                             OR content LIKE #{keyword}
                         </if>
                     </trim>
-                </script>
+                
         GROUP BY b.id
         ORDER BY b.id DESC
         LIMIT #{from}, 10
+        </script>
         """) // 페이징 10페이지씩 보이게 LIMIT 사용
     List<Board> selectAll(Integer from, String keyword, String category);
 
@@ -92,14 +94,14 @@ public interface BoardMapper {
             SELECT COUNT(*) FROM board
             WHERE 
                 <trim prefixOverrides="OR">
-                    <if text="category == 'all' or category == 'title'">
+                    <if test="category == 'all' or category == 'title'">
                         OR title LIKE #{keyword}
                     </if>
-                    <if text="category == 'all' or category == 'content'">
+                    <if test="category == 'all' or category == 'content'">
                         OR content LIKE #{keyword}
                     </if>
                 </trim>
             </script>
             """)
-    int countAll(String s, String category);
+    int countAll(String keyword, String category);
 }
