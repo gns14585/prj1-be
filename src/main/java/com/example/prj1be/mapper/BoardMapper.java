@@ -28,13 +28,22 @@ public interface BoardMapper {
                      LEFT JOIN boardLike l ON b.id = l.boardId
                      LEFT JOIN boardfile f ON b.id = f.boardId
         # keyword를 추가해서 검색했을때 해당 내용이 나오도록
-        WHERE b.content LIKE #{keyword}
-            OR b.title LIKE #{keyword}
+        WHERE 
+                <script>
+                    <trim prefixOverrides="OR">
+                        <if text="category == 'all' or category == 'title'">
+                            OR title LIKE #{keyword}
+                        </if>
+                        <if text="category == 'all' or category == 'content'">
+                            OR content LIKE #{keyword}
+                        </if>
+                    </trim>
+                </script>
         GROUP BY b.id
         ORDER BY b.id DESC
         LIMIT #{from}, 10
         """) // 페이징 10페이지씩 보이게 LIMIT 사용
-    List<Board> selectAll(Integer from, String keyword);
+    List<Board> selectAll(Integer from, String keyword, String category);
 
     @Select("""
         SELECT b.id,
@@ -79,9 +88,18 @@ public interface BoardMapper {
 
     // 총 게시물 숫자 파악
     @Select("""
+            <script>
             SELECT COUNT(*) FROM board
-            WHERE title LIKE #{keyword}
-                OR content LIKE #{keyword}
+            WHERE 
+                <trim prefixOverrides="OR">
+                    <if text="category == 'all' or category == 'title'">
+                        OR title LIKE #{keyword}
+                    </if>
+                    <if text="category == 'all' or category == 'content'">
+                        OR content LIKE #{keyword}
+                    </if>
+                </trim>
+            </script>
             """)
-    int countAll(String s);
+    int countAll(String s, String category);
 }

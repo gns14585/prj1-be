@@ -55,9 +55,12 @@ public class BoardController {
     public Map<String, Object> list(
             @RequestParam(value = "p", defaultValue = "1") Integer page,
             // 검색에 필요한 keyword 추가
-            @RequestParam(value = "k", defaultValue = "") String keyword) {
+            @RequestParam(value = "k", defaultValue = "") String keyword,
+            // 카테고리별 검색기능
+            @RequestParam(value = "c", defaultValue = "all") String category) {
+
         // keyword 도 매개변수 추가해주기
-        return service.list(page, keyword);
+        return service.list(page, keyword, category);
     }
 
     @GetMapping("id/{id}")

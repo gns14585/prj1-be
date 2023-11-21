@@ -14,12 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -105,12 +103,12 @@ public class BoardService {
     }
 
     // 마찬가지로 매개변수에 String keyword 추가
-    public Map<String, Object> list(Integer page, String keyword) {
+    public Map<String, Object> list(Integer page, String keyword, String category) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> pageInfo = new HashMap<>();
 
 //        int countAll = mapper.countAll();
-        int countAll = mapper.countAll("%" + keyword + "%");
+        int countAll = mapper.countAll("%" + keyword + "%", category);
         int lastPageNumber = (countAll - 1) / 10 + 1;
         int startPageNumber = (page - 1) / 10 * 10 + 1;
         int endPageNumber = startPageNumber + 9;
@@ -130,7 +128,7 @@ public class BoardService {
 
         int from = (page - 1) * 10;
         // "%"+keyword+"%" 를 추가하게 해주면 mapper에서 <script> 사용할 필요없음.
-        map.put("boardList", mapper.selectAll(from, "%" + keyword + "%"));
+        map.put("boardList", mapper.selectAll(from, "%" + keyword + "%", category));
         map.put("pageInfo", pageInfo);
         return map;
     }
