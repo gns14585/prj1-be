@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -185,7 +184,29 @@ public class BoardService {
 
     }
 
-    public boolean update(Board board) {
+    public boolean update(Board board, MultipartFile[] files) throws IOException {
+
+        // 이미 올려져있던 이미지 파일 삭제
+        fileMapper.deleteByBoardId(board.getId());
+
+        // 로컬 저장 코드
+        // 파일 저장 경로
+        // C:\Temp\prj1\게시물번호\파일명
+        File folder = new File("C:\\Temp\\prj1\\" + board.getId());
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        if (files != null) {
+
+            for (MultipartFile file : files) {
+                String path = folder.getAbsolutePath() + "\\" + file.getOriginalFilename();
+                File des = new File(path);
+                // input, output stream을 자동으로 처리해주는 메소드(file.transferTo(new File(path));
+                file.transferTo(des);
+            }
+        }
+
         return mapper.update(board) == 1;
     }
 
