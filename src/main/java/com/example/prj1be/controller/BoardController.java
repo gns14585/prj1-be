@@ -85,7 +85,8 @@ public class BoardController {
 
     @PutMapping("edit")
     public ResponseEntity edit(@RequestBody Board board,
-                               @SessionAttribute(value = "login", required = false) Member login) {
+                               @RequestParam(value = "uploadFiles", required = false) MultipartFile[] files,
+                               @SessionAttribute(value = "login", required = false) Member login) throws IOException {
         if (login == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // 401
         }
@@ -95,7 +96,7 @@ public class BoardController {
         }
 
         if (service.validate(board)) {
-            if (service.update(board)) {
+            if (service.update(board, files)) {
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.internalServerError().build();

@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.Bucket;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -185,7 +184,31 @@ public class BoardService {
 
     }
 
-    public boolean update(Board board) {
+    public boolean update(Board board, MultipartFile[] files) {
+        // 업데이트 하기전에 기존 첨부파일 레코드 지우기
+        fileMapper.deleteByBoardId(board.getId());
+
+        // 로컬 저장 코드
+        // 파일 저장 경로
+        // C:\Temp\prj1\게시물번호\파일명
+        File folder = new File("C:\\Temp\\prj1\\" + board.getId());
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        for (int i = 0; i < files.length; i++) {
+            String path = folder.getAbsolutePath() + "\\" + files[i].getOriginalFilename();
+            File des = new File(path);
+
+            try {
+                files[i].transferTo(des);
+            } catch (IOException e) {
+                e.printStackTrace(); // 또는 로깅을 활용하여 예외를 기록
+                return false; // 파일 전송 실패 시 메서드 종료
+            }
+        }
+
+        // 저장버튼 눌렀을 때의 업데이트 되는 내용
         return mapper.update(board) == 1;
     }
 
@@ -199,6 +222,10 @@ public class BoardService {
         }
 
         Board board = mapper.selectById(id);
+
+        if (board == null || board.getWriter() == null) {
+            return false;
+        }
 
         return board.getWriter().equals(login.getId());
     }
