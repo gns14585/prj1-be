@@ -21,10 +21,12 @@ public interface BoardMapper {
                m.nickName,
                b.inserted,
                COUNT(DISTINCT c.id) countComment,
-               COUNT(DISTINCT l.id) countLike
+               COUNT(DISTINCT l.id) ,
+               COUNT(DISTINCT f.id) countFile
         FROM board b JOIN member m ON b.writer = m.id
                      LEFT JOIN comment c ON b.id = c.boardId
                      LEFT JOIN boardLike l ON b.id = l.boardId
+                     LEFT JOIN boardfile f ON b.id = f.boardId
         # keyword를 추가해서 검색했을때 해당 내용이 나오도록
         WHERE b.content LIKE #{keyword}
             OR b.title LIKE #{keyword}
