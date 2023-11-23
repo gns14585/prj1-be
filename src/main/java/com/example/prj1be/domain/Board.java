@@ -25,7 +25,7 @@ public class Board {
 
 
     public String getAgo() { // AppUtll 클래스에 공통 날짜함수를 빼놓을걸 연결시켜줘야함
-        return AppUtil.getAgo(inserted, LocalDateTime.now());
+        return AppUtil.getAgo(inserted);
     }
 }
 

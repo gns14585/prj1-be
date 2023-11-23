@@ -22,7 +22,7 @@ public interface BoardMapper {
                m.nickName,
                b.inserted,
                COUNT(DISTINCT c.id) countComment,
-               COUNT(DISTINCT l.id) ,
+               COUNT(DISTINCT l.id) countLike,
                COUNT(DISTINCT f.id) countFile
         FROM board b JOIN member m ON b.writer = m.id
                      LEFT JOIN comment c ON b.id = c.boardId

@@ -3,10 +3,12 @@ package com.example.prj1be.util;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 public class AppUtil { // 공통적으로 사용할 UtilClass 생성
-    public static String getAgo(LocalDateTime a, LocalDateTime b) {
+    public static String getAgo(LocalDateTime a) {
+        LocalDateTime b = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         // 날짜 형식 / ex) 몇년전, 몇달전, 며칠전, 몇시간전, 그외
         // Period : 몇년, 몇달, 며칠 날짜단위
